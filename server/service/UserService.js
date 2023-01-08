@@ -3,6 +3,8 @@ const { CONSTANTS } = require('../constants/index');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const mailService = require('../service/MailService');
+const tokenService = require('../service/TokenService');
+const UserDto = require('../dto/UserDto');
 
 class UserService {
     async registration(email, password) {
@@ -21,6 +23,15 @@ class UserService {
         });
 
         await mailService.sendActivationMail(email, activationLink);
+        const userDto = new UserDto(newUser);
+
+        const tokens = tokenService.generateToken({ ...userDto });
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        return {
+            ...tokens,
+            user: userDto,
+        };
     }
 }
 
