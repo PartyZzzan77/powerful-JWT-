@@ -1,53 +1,35 @@
+const userService = require('../service/UserService');
+
 class UserController {
-    async registration(req,res,next){
+    async registration(req, res, next) {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
-    async login(req,res,next){
+    async login(req, res, next) {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
-    async logout(req,res,next){
+    async logout(req, res, next) {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
-    async activate(req,res,next){
+    async activate(req, res, next) {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
-    async refresh(req,res,next){
+    async refresh(req, res, next) {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
-    async getAllUsers(req,res,next){
+    async getAllUsers(req, res, next) {
         try {
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
-
-    
 }
 
 module.exports = new UserController();
