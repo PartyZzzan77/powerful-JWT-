@@ -12,18 +12,22 @@ class UserController {
             });
             return res.json(userData);
         } catch (error) {
-            console.log(error.message);
+            next(error);
         }
     }
 
     async login(req, res, next) {
         try {
-        } catch (error) {}
+        } catch (error) {
+            next(error);
+        }
     }
 
     async logout(req, res, next) {
         try {
-        } catch (error) {}
+        } catch (error) {
+            next(error);
+        }
     }
 
     async activate(req, res, next) {
@@ -38,12 +42,16 @@ class UserController {
 
     async refresh(req, res, next) {
         try {
-        } catch (error) {}
+        } catch (error) {
+            next(error);
+        }
     }
 
     async getAllUsers(req, res, next) {
         try {
-        } catch (error) {}
+        } catch (error) {
+            next(error);
+        }
     }
 }
 
