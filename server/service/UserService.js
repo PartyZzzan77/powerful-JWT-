@@ -47,6 +47,61 @@ class UserService {
 
         await user.save();
     }
+
+    async login(email, password) {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            throw ApiError.BadRequest(CONSTANTS.USER_NOT_FOUND);
+        }
+
+        const isPasswordEquals = await bcrypt.compare(password, user.password);
+        console.log(isPasswordEquals);
+
+        if (!isPasswordEquals) {
+            throw ApiError.BadRequest(CONSTANTS.INVALID_PASSWORD);
+        }
+
+        const userDto = new UserDto(user);
+
+        const tokens = tokenService.generateToken({ ...userDto });
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        return {
+            ...tokens,
+            user: userDto,
+        };
+    }
+
+    async logout(refreshToken) {
+        const token = await tokenService.removeToken(refreshToken);
+
+        return token;
+    }
+
+    async refresh(refreshToken) {
+        if (!refreshToken) {
+            throw ApiError.UnauthorizedError();
+        }
+
+        const userData = tokenService.validateRefreshToken(refreshToken);
+        const tokenInDB = tokenService.findToken(refreshToken);
+
+        if (!userData || !tokenInDB) {
+            throw ApiError.UnauthorizedError();
+        }
+
+        const user = await User.findById(userData.id);
+        const userDto = new UserDto(user);
+
+        const tokens = tokenService.generateToken({ ...userDto });
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        return {
+            ...tokens,
+            user: userDto,
+        };
+    }
 }
 
 module.exports = new UserService();
